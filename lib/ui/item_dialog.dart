@@ -1,5 +1,6 @@
+import 'package:btk_hackathon/item.dart';
 import 'package:flutter/material.dart';
-import 'models/item.dart';
+
 
 class ItemDialog extends StatefulWidget {
   final List<String> availableHours;

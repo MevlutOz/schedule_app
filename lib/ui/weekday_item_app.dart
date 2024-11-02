@@ -1,6 +1,7 @@
+import 'package:btk_hackathon/item.dart';
 import 'package:flutter/material.dart';
 import 'item_dialog.dart';
-import 'models/item.dart';
+
 
 class WeekdayItemApp extends StatefulWidget {
   @override

@@ -1,4 +1,4 @@
-import 'package:btk_hackathon/ui/anasayfa.dart';
+import 'package:btk_hackathon/ui/weekday_item_app.dart';
 import 'package:flutter/material.dart';
 
 class UyeGiris extends StatefulWidget {
@@ -36,7 +36,7 @@ class _UyeGirisState extends State<UyeGiris> {
             ),
             SizedBox(width: 150,
               child: ElevatedButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WeekdayItemApp()));
               }, child: const Text("Giriş")),
             )
 

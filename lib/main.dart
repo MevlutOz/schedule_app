@@ -1,4 +1,3 @@
-import 'package:btk_hackathon/ui/anasayfa.dart';
 import 'package:btk_hackathon/ui/uye_giris.dart';
 import 'package:flutter/material.dart';
 
