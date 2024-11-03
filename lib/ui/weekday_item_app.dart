@@ -1,5 +1,7 @@
+import 'package:btk_hackathon/auth.dart';
 import 'package:btk_hackathon/item.dart';
 import 'package:btk_hackathon/ui/study_schedule_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'item_dialog.dart';
 
@@ -9,6 +11,23 @@ class WeekdayItemApp extends StatefulWidget {
 }
 
 class _WeekdayItemAppState extends State<WeekdayItemApp> {
+  final User? user = Auth().current_user;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  Widget _userUid() {
+    return Text("Welcome ${user?.email} ");
+  }
+
+  Widget _signOutButton() {
+    return ElevatedButton(
+      onPressed: signOut,
+      child: const Text('Sign Out'),
+    );
+  }
+
   final Map<String, List<Item>> dayItems = {
     'Mon': [],
     'Tue': [],
@@ -61,7 +80,6 @@ class _WeekdayItemAppState extends State<WeekdayItemApp> {
     if (result != null) {
       setState(() {
         dayItems[selectedDay]?.add(result);
-        // Remove the selected hour from available hours for the day
         availableHours[selectedDay]?.remove(result.range);
       });
     }
@@ -69,12 +87,10 @@ class _WeekdayItemAppState extends State<WeekdayItemApp> {
 
   void _removeItem(int index) {
     setState(() {
-      // Add the hour back to the available hours when an item is removed
       String removedHour = dayItems[selectedDay]![index].range;
       dayItems[selectedDay]?.removeAt(index);
-      // Insert the removed hour back to its sorted place
       availableHours[selectedDay]?.add(removedHour);
-      availableHours[selectedDay]?.sort(); // Keep the list sorted
+      availableHours[selectedDay]?.sort();
     });
   }
 
@@ -88,70 +104,80 @@ class _WeekdayItemAppState extends State<WeekdayItemApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Weekday Item App')),
-      body: Column(
+      body: Stack(
         children: [
-          // Scrollable Row for Weekday Buttons
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                  .map((day) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: ElevatedButton(
-                  onPressed: () => _selectDay(day),
-                  child: Text(day),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      day == selectedDay ? Colors.blue : Colors.grey,
+          Column(
+            children: [
+              _userUid(),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                      .map((day) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ElevatedButton(
+                      onPressed: () => _selectDay(day),
+                      child: Text(day),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          day == selectedDay ? Colors.blue : Colors.grey,
+                        ),
+                      ),
                     ),
-                  ),
+                  ))
+                      .toList(),
                 ),
-              ))
-                  .toList(),
-            ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: _addItem,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: dayItems[selectedDay]?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final item = dayItems[selectedDay]![index];
+                          return Container(
+                            margin: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  item.range,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  item.text,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () => _removeItem(index),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          // Plus Button and Item List
-          Expanded(
-            child: Column(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: _addItem,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dayItems[selectedDay]?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final item = dayItems[selectedDay]![index];
-                      return Container(
-                        margin: EdgeInsets.all(8),
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align items
-                          children: [
-                            Text(
-                              item.range,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Text(
-                              item.text,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => _removeItem(index),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: _signOutButton(),
             ),
           ),
         ],
