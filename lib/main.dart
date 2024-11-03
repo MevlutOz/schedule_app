@@ -1,28 +1,19 @@
-<<<<<<< HEAD
+import 'package:btk_hackathon/item.dart';
 import 'package:btk_hackathon/widget_tree.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:btk_hackathon/ui/homepage.dart';
+import 'package:flutter/material.dart';
+import 'item.dart';
 
 Future<void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}):super(key: key);
-=======
-import 'package:btk_hackathon/ui/homepage.dart';
-import 'package:btk_hackathon/ui/uye_giris.dart';
-import 'package:flutter/material.dart';
-
-import 'item.dart';
-
-void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   // Sample predefined schedules with different subjects and time slots
   final List<Map<String, List<Item>>> savedSchedules = [
     {
@@ -36,22 +27,13 @@ class MyApp extends StatelessWidget {
       'Sat': [Item(range: '13:00-13:59', text: 'Computer Science')],
     },
   ];
->>>>>>> origin/master
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-<<<<<<< HEAD
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
       home: const WidgetTree(),
-=======
       title: 'Study Schedule App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: UyeGiris(),
->>>>>>> origin/master
     );
   }
 }
