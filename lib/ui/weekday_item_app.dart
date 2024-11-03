@@ -1,7 +1,7 @@
 import 'package:btk_hackathon/item.dart';
+import 'package:btk_hackathon/ui/study_schedule_list.dart';
 import 'package:flutter/material.dart';
 import 'item_dialog.dart';
-
 
 class WeekdayItemApp extends StatefulWidget {
   @override
@@ -134,11 +134,11 @@ class _WeekdayItemAppState extends State<WeekdayItemApp> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align items
                           children: [
                             Text(
-                              item.text,
+                              item.range,
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              item.range,
+                              item.text,
                               style: TextStyle(color: Colors.white),
                             ),
                             IconButton(
@@ -156,6 +156,19 @@ class _WeekdayItemAppState extends State<WeekdayItemApp> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StudyScheduleList(dayItems: dayItems, savedSchedules: []),
+            ),
+          );
+        },
+        child: Icon(Icons.list),
+        tooltip: 'View Study Schedule List',
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
