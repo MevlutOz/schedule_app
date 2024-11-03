@@ -1,5 +1,4 @@
 import 'package:btk_hackathon/auth.dart';
-import 'package:btk_hackathon/pages/home_page.dart';
 import 'package:btk_hackathon/pages/login_register_page.dart';
 import 'package:btk_hackathon/ui/weekday_item_app.dart';
 import 'package:flutter/material.dart';
