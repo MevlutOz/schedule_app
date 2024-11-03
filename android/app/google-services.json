@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936034240145",
+    "project_id": "schedule-planner-5398f",
+    "storage_bucket": "schedule-planner-5398f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936034240145:android:b09dc706a1d1fa9a37a130",
+        "android_client_info": {
+          "package_name": "com.example.btk_hackathon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA1GJ3MEnz29Y0KfpySy75SeX2PMRD168"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
